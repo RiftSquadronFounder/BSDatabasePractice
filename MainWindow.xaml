@@ -1,0 +1,106 @@
+<Window x:Class="BSDatabasePractice.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Партнёры" Height="650" Width="800" MinHeight="540" MinWidth="660"
+        FontFamily="Segoe UI" FontSize="14" Background="White"
+        Icon="Assets/MasterPol.ico" Loaded="WindowLoaded">
+    <Window.Resources>
+        <SolidColorBrush x:Key="Secondary" Color="#F4E8D3"/>
+        <SolidColorBrush x:Key="Accent" Color="#67BA80"/>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="12,5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="0,0,0,7"/>
+            <Setter Property="Padding" Value="3"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel x:Name="Layout">
+        <Border DockPanel.Dock="Top" Background="{StaticResource Secondary}" Padding="16,10">
+            <DockPanel>
+                <Image x:Name="Logo" Source="Assets/MasterPol.png" Width="48" Height="48"
+                       Margin="0,0,12,0" Stretch="Uniform" DockPanel.Dock="Left"/>
+                <Button x:Name="BackButton" Content="Назад" Click="BackClick" Visibility="Collapsed"
+                        DockPanel.Dock="Left" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                <TextBlock x:Name="Heading" Text="Партнёры" FontSize="22" VerticalAlignment="Center"/>
+            </DockPanel>
+        </Border>
+
+        <Grid Margin="16">
+            <DockPanel x:Name="PartnerPage">
+                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,12">
+                    <Button x:Name="AddButton" Content="Добавить партнёра" Click="AddClick"
+                            Background="{StaticResource Accent}" IsEnabled="False" Margin="0,0,8,0"/>
+                    <Button Content="Обновить" Click="RefreshClick"/>
+                </StackPanel>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="PartnerList">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Gray" BorderThickness="1" Margin="0,0,0,10">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Tag="{Binding Id}" Click="EditClick" HorizontalContentAlignment="Stretch"
+                                                Background="White" BorderThickness="0" Padding="18,10">
+                                            <DockPanel>
+                                                <TextBlock DockPanel.Dock="Right" Text="{Binding Discount, StringFormat={}{0}%}"
+                                                           FontSize="19" Margin="8,0,0,0"/>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Heading}" FontSize="19" TextWrapping="Wrap"/>
+                                                    <TextBlock Text="{Binding Director}"/>
+                                                    <TextBlock Text="{Binding Phone}"/>
+                                                    <TextBlock Text="{Binding Rating, StringFormat=Рейтинг: {0}}"/>
+                                                </StackPanel>
+                                            </DockPanel>
+                                        </Button>
+                                        <Button Grid.Column="1" Content="История продаж" Tag="{Binding Id}"
+                                                Click="HistoryClick" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+
+            <ScrollViewer x:Name="EditorPage" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                <StackPanel MaxWidth="480" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Наименование"/>
+                    <TextBox x:Name="PartnerName" MaxLength="200"/>
+                    <TextBlock Text="Тип партнёра"/>
+                    <ComboBox x:Name="PartnerTypeField" DisplayMemberPath="Name" SelectedValuePath="Id"
+                              Margin="0,0,0,7"/>
+                    <TextBlock Text="Рейтинг"/>
+                    <TextBox x:Name="RatingField" MaxLength="10"/>
+                    <TextBlock Text="Юридический адрес"/>
+                    <TextBox x:Name="AddressField" MaxLength="300"/>
+                    <TextBlock Text="ФИО директора"/>
+                    <TextBox x:Name="DirectorField" MaxLength="200"/>
+                    <TextBlock Text="Телефон"/>
+                    <TextBox x:Name="PhoneField" MaxLength="30"/>
+                    <TextBlock Text="Электронная почта"/>
+                    <TextBox x:Name="EmailField" MaxLength="254"/>
+                    <Button Content="Сохранить" Click="SaveClick" Background="{StaticResource Accent}"
+                            HorizontalAlignment="Left" IsDefault="True" Margin="0,6,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <DockPanel x:Name="HistoryPage" Visibility="Collapsed">
+                <TextBlock x:Name="HistoryPartner" DockPanel.Dock="Top" FontSize="18" Margin="0,0,0,10"/>
+                <TextBlock x:Name="EmptyHistory" Text="Продаж пока нет." DockPanel.Dock="Top"
+                           Visibility="Collapsed" Margin="0,0,0,10"/>
+                <DataGrid x:Name="SalesGrid" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Продукция" Binding="{Binding Product}" Width="*"/>
+                        <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="115"/>
+                        <DataGridTextColumn Header="Дата продажи" Binding="{Binding Date, StringFormat=dd.MM.yyyy}" Width="125"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</Window>
