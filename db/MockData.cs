@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace BSDatabasePractice;
+namespace BSDatabasePractice.db;
 
-internal static class SeedData
+internal static class MockData
 {
     public static void AddTo(ModelBuilder model)
     {

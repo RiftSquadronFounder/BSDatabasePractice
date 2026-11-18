@@ -2,7 +2,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace BSDatabasePractice;
+namespace BSDatabasePractice.db;
 
 public class PracticeDb : DbContext
 {
@@ -79,6 +79,6 @@ public class PracticeDb : DbContext
         model.Entity<Partner>().HasMany(partner => partner.Sales).WithOne().OnDelete(DeleteBehavior.Restrict);
         model.Entity<Sale>().HasOne(sale => sale.Product).WithMany().OnDelete(DeleteBehavior.Restrict);
 
-        SeedData.AddTo(model);
+        MockData.AddTo(model);
     }
 }
