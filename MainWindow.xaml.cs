@@ -1,6 +1,7 @@
 using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
+using BSDatabasePractice.db;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 

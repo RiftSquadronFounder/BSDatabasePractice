@@ -1,3 +1,4 @@
+using BSDatabasePractice.db;
 using Microsoft.EntityFrameworkCore;
 
 namespace BSDatabasePractice;
